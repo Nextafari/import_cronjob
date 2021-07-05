@@ -1,0 +1,1 @@
+default_app_config = 'twitter_api.apps.TwitterApiConfig'
