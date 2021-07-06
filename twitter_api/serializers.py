@@ -15,10 +15,11 @@ class PythonTipUserFormSerializer(serializers.ModelSerializer):
             "python_tip", "twitter_handle", "email",
         ]
 
-        def validate(self, attrs):
-            python_tip = attrs["python_tip"]
-            if PythonTipUserForm.objects.filter(python_tip=python_tip).exists():
-                raise serializers.ValidationError({
-                    'python_tip': 'This email already exits'
-                    })
-            return super().validate(attrs)
+    def validate(self, attrs):
+        python_tip = attrs["python_tip"]
+        print("Na me be python Tip")
+        if PythonTipUserForm.objects.filter(python_tip=python_tip).exists():
+            raise serializers.ValidationError({
+                'python_tip': 'This tip exits'
+                })
+        return super().validate(attrs)

@@ -2,9 +2,10 @@ from rest_framework.generics import CreateAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import serializers, status
 from twitter_api.models import PythonTipSheet, PythonTipUserForm
 from .serializers import PythonTipSerializer, PythonTipUserFormSerializer
+from drf_yasg.utils import swagger_auto_schema
 
 
 class GetPythonTipsView(APIView):
@@ -22,17 +23,18 @@ class CreatePythonTipView(CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = PythonTipUserFormSerializer
 
+    @swagger_auto_schema(
+        request_body=PythonTipUserFormSerializer,
+        operation_description="Creates a Tip Object",
+        responses={200: 'Done'}
+    )
     def post(self, request):
         serializer = PythonTipUserFormSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        PythonTipUserForm.objects.create(
-            python_tip=serializer.validated_data.get('python_tip'),
-            twitter_handle=serializer.validated_data.get('twitter_handle'),
-            email=serializer.validated_data.get('email')
-        )
+        serializer.save()
         return Response(
             {
-                "data": "User created"
+                "data": "Form Submitted Successfully!"
             },
             status=status.HTTP_201_CREATED
         )
