@@ -137,8 +137,12 @@ USE_L10N = True
 USE_TZ = True
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-# CELERY_RESULT_BACKEND = 'redis://redistogo:7d76b6f4a1d19e166a3a7779a7e2ba0b@scat.redistogo.com:10428/'
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
