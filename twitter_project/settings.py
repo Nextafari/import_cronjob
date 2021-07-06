@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-__l85*a%@j1_jtn06j1c_f@8wir35u^04f&ev@g2p-e2m%wmx-'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -91,10 +93,6 @@ SWAGGER_SETTINGS = {
     }
 }
 
-CRONJOBS = [
-    ('* * * * *', 'twitter_api.cron.my_scheduled_job')
-]
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -139,12 +137,23 @@ USE_L10N = True
 USE_TZ = True
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-# CELERY_RESULT_BACKEND = 'redis://redistogo:7d76b6f4a1d19e166a3a7779a7e2ba0b@scat.redistogo.com:10428/'
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Lagos'
+CELERY_BEAT_SCHEDULE = {
+    "send-my-job": {
+        "task": "twitter_api.tasks.say_hello",
+        'schedule': crontab(),
+        'args': (),
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
