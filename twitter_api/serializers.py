@@ -17,7 +17,6 @@ class PythonTipUserFormSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         python_tip = attrs["python_tip"]
-        print("Na me be python Tip")
         if PythonTipUserForm.objects.filter(python_tip=python_tip).exists():
             raise serializers.ValidationError({
                 'python_tip': 'This tip exits'
