@@ -1,10 +1,23 @@
 from django.contrib import admin
-# from import_export import resources
+from import_export import resources
 from import_export.admin import ImportExportActionModelAdmin
 from .models import PythonTipSheet, PythonTipUserForm
 
 
-class PythonTipResource(ImportExportActionModelAdmin):
+# tip_resource = PythonTipSheetResource()
+# dataset = tip_resource.export()
+# dataset.xlsx
+class PythonTipResource(resources.ModelResource):
+
+    class Meta:
+        model = PythonTipSheet
+        fields = (
+            "timestamp", "python_tip", "link",
+            "author", "published",
+        )
+
+
+class PythonTipSheetAdmin(ImportExportActionModelAdmin):
     class Meta:
         model = PythonTipSheet
     list_display = [
@@ -13,7 +26,7 @@ class PythonTipResource(ImportExportActionModelAdmin):
     ]
 
 
-admin.site.register(PythonTipSheet, PythonTipResource)
+admin.site.register(PythonTipSheet, PythonTipSheetAdmin)
 
 
 class PythonTipFormAdmin(admin.ModelAdmin):
