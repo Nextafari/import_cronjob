@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import PythonTipSheet, PythonTipUserForm
 
 
-class PythonTipSerializer(serializers.ModelSerializer):
+class PythonTipSheetSerializer(serializers.ModelSerializer):
     class Meta:
         model = PythonTipSheet
         fields = "__all__"
