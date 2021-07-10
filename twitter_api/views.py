@@ -65,7 +65,7 @@ class EditTipView(APIView):
 
 class DeletePythonTipView(DestroyAPIView):
     """Deletes any python Tip passed to it"""
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request, id, **kwargs):
         python_tip = PythonTipUserForm.objects.filter(id=id)
         if python_tip.exists():
             python_tip.delete()
@@ -73,3 +73,5 @@ class DeletePythonTipView(DestroyAPIView):
                 "Deleted",
                 status=status.HTTP_204_NO_CONTENT
             )
+        else:
+            return Response("Data object does not Exist")
