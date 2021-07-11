@@ -11,4 +11,8 @@ urlpatterns = [
         views.DeletePythonTipView.as_view(),
         name="delete_tip"
     ),
+    path(
+        'rest-auth/twitter/',
+        views.TwitterLogin.as_view(), name='twitter_login'
+    ),
 ]

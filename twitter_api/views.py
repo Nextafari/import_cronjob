@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework.generics import CreateAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -8,6 +8,14 @@ from rest_framework.views import APIView
 from twitter_api.models import PythonTipSheet, PythonTipUserForm
 
 from .serializers import PythonTipSheetSerializer, PythonTipUserFormSerializer
+from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
+from rest_auth.registration.views import SocialLoginView
+from rest_auth.social_serializers import TwitterLoginSerializer
+
+
+class TwitterLogin(SocialLoginView):
+    serializer_class = TwitterLoginSerializer
+    adapter_class = TwitterOAuthAdapter
 
 
 class GetPythonTipsView(APIView):
