@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_cron',
     'django_celery_beat',
     'import_export',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -79,10 +80,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'twitter_project.wsgi.application'
-
-# CRON_CLASSES = [
-#     "twitter_api.cron.SyncSpreadSheet",
-# ]
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
